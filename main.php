@@ -65,6 +65,7 @@ foreach ($coefficients as $key => $value) {
 
 print "<hr>";
 
+// 複数環境で使うテスト用の記述
 
 
 
