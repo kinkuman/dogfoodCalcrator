@@ -1,41 +1,45 @@
 <?php
 
-// test
+require 'staticvalue.php';
+
+// 用語
 // DER １日あたりのエネルギー要求量 = 安静時エネルギー要求量(RER) * 係数
-// Daily Energy Requirementの略、１日に必要なエネルギー量
-
+// Daily Energy Requirementの略、１日に必要なエネルギー
 // RERはResting Energy Requirementの略、安静時の必要カロリーのこと
+// MEはたぶんMeal Energy
 
-// 簡易RER計算　体重を元に計算 30* 体重(kg) + 70
+// テスト犬の体重（希望）
 $weight = 8;
-$rer_tiny = 30 * $weight + 70;
+
+$rer_tiny = perCalclateEasy($weight);
 
 print "体重".$weight."kgのわんこの";
 print "rer簡易計算結果は".$rer_tiny."です<br>";
 
 
-// 普通のRER計算　70(体重(kg)) 0.75乗 を四捨五入する
-$rer_normal = round(70 * $weight ** 0.75);
+$rer_normal = perCalclate($weight);
 
 print "普通の計算でのrerは".(int)$rer_normal."です<br>";
 
+/***
+ * 簡易PER計算
+ */
+function perCalclateEasy($weight) {
+    // 簡易RER計算　体重を元に計算 30* 体重(kg) + 70
+    $rer = 30 * $weight + 70;
+    return $rer;
+}
 
-// DERの計算 係数を必要とする DER = RER * 係数
-define("NORMAL",1.6); // 何もしてない成犬
-define("FIX", 1.4); // 去勢済み
-define("FAT", 1.2); // 肥満
-define("DIET",1.0); // 痩せたい
-define("REST",1.0); // 入院中など安静中
-define("GROWTH",3.0); // 成長期　離乳～４カ月ぐらい
+/***
+ * 通常PER計算
+ */
+function perCalclate($weight) {
+    // 普通のRER計算　70(体重(kg)) 0.75乗 を四捨五入する
+    $rer = round(70 * $weight ** 0.75);
+    return $rer;
+}
 
 
-$coefficients = array(
-    "成犬"=>NORMAL,
-    "成犬(去勢/不妊)" =>FIX,
-    "肥満"=>FAT,
-    "ダイエット中"=>DIET,
-    "入院中などの安静時"=>REST,
-    "成長期"=>GROWTH);
 
 
 foreach ($coefficients as $key => $value) {
